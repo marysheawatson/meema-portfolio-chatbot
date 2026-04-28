@@ -1,0 +1,599 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&family=Space+Grotesk:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+/*
+  Palette
+  Plum (vinaceous):   #3D2B35  — sidebar bg, bold text
+  Old rose (dark):    #7A4A52  — links, active elements
+  Old rose (mid):     #C4897A  — cheeks, warm accents
+  Old rose (light):   #E8C4BC  — active sidebar border
+  Sea green (dark):   #2E6B5A  — headlines, send button, actions
+  Sea green (mid):    #9BC4BE  — robot highlights, glaucous accent
+  Sea green (light):  #C4DED8  — robot body, assistant bubble border
+  Glaucous:           #7B9BAA  — scrollbar, timestamps
+  Cream:              #FAF8F6  — page bg (behind layout)
+*/
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+nextjs-portal {
+  display: none !important;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  color: #2A1F24;
+  font-family: 'IBM Plex Mono', monospace;
+  background: #3D2B35;
+}
+
+/* Layout */
+
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 260px;
+  background: linear-gradient(180deg, #2A1F24 0%, #3D2B35 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 20px 24px;
+  gap: 10px;
+  flex-shrink: 0;
+  border-right: 1px solid rgba(0, 0, 0, 0.25);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #5C3A45 transparent;
+}
+
+.sidebar-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 36px;
+  font-weight: 700;
+  color: #F0EDE8;
+  letter-spacing: -1px;
+  line-height: 1;
+  margin: 0;
+  align-self: flex-start;
+}
+
+.sidebar-tagline {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #D4C4C8;
+  text-align: left;
+  line-height: 1.5;
+  align-self: flex-start;
+  margin: 0;
+  margin-top: 8px;
+}
+
+.sidebar-intro {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #B08898;
+  text-align: left;
+  line-height: 1.6;
+  font-style: normal;
+  align-self: flex-start;
+  margin: 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-nav-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #B08898;
+  padding: 12px 12px 6px;
+  display: block;
+}
+
+.sidebar-link {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: #E0D4D8;
+  text-decoration: none;
+  padding: 10px 12px 10px 20px;
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #F0EDE8;
+  border-left-color: #C4897A;
+}
+
+.sidebar-link:focus-visible {
+  outline: 2px solid #ffcc00;
+  outline-offset: 2px;
+}
+
+.sidebar-link.active {
+  background: rgba(255, 255, 255, 0.09);
+  color: #F0EDE8;
+  border-left-color: #E8C4BC;
+}
+
+.sidebar-chat-btn {
+  margin-top: 14px;
+  width: 100%;
+  background: #7A4A52;
+  border: none;
+  color: #F0EDE8;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 9px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.1s;
+  align-self: stretch;
+}
+
+.sidebar-chat-btn:hover {
+  background: #5C3540;
+}
+
+.sidebar-chat-btn:focus-visible {
+  outline: 2px solid #ffcc00;
+  outline-offset: 2px;
+}
+
+.sidebar-disclaimer {
+  margin-top: 16px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.sidebar-disclaimer p {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #D4C4C8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.sidebar-verify {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #D4C4C8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.sidebar-feedback-btn {
+  width: 100%;
+  background: #7A4A52;
+  border: none;
+  color: #F0EDE8;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 9px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  transition: background 0.1s;
+  box-sizing: border-box;
+}
+
+.sidebar-feedback-btn:hover {
+  background: #5C3540;
+}
+
+.sidebar-footer {
+  font-size: 10px;
+  color: #7B6878;
+  text-align: center;
+}
+
+/* Main content area */
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Messages */
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #ffffff;
+  scrollbar-width: thin;
+  scrollbar-color: #C4B0AC #ffffff;
+}
+
+.messages::-webkit-scrollbar {
+  width: 6px;
+}
+.messages::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+.messages::-webkit-scrollbar-thumb {
+  background: #C4B0AC;
+  border-radius: 3px;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  max-width: 72%;
+}
+
+.message.user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.message.assistant {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.message-meta {
+  font-size: 10px;
+  color: #7B9BAA;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bubble {
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #2A1F24;
+}
+
+.bubble strong {
+  font-weight: 600;
+  color: #1F4A3D;
+}
+
+.bubble ul {
+  margin: 0;
+}
+
+.bubble li {
+  margin-bottom: 3px;
+}
+
+.message.user .bubble {
+  background: #F5E8E6;
+  border: 1px solid #D4A8A4;
+}
+
+.message.assistant .bubble {
+  background: #EBF4F1;
+  border: 1px solid #A8C8C0;
+}
+
+/* Meema idle animation */
+
+.idle-eye-left,
+.idle-eye-right {
+  transform-origin: center center;
+  animation: idleBlink 4s ease-in-out infinite;
+}
+
+.idle-eye-right {
+  animation-delay: 0.05s;
+}
+
+.idle-antenna-glow {
+  animation: idleGlow 2s ease-in-out infinite;
+}
+
+@keyframes idleBob {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-2px); }
+}
+
+@keyframes idleBlink {
+  0%, 88%, 96%, 100% { transform: scaleY(1); }
+  92%                { transform: scaleY(0.08); }
+}
+
+@keyframes idleGlow {
+  0%, 100% { opacity: 1; r: 2.2; }
+  50%       { opacity: 0.5; r: 3; }
+}
+
+.idle-wave {
+  animation: waveOccasional 7s ease-in-out infinite;
+}
+
+@keyframes waveOccasional {
+  0%, 22%, 100% { transform: rotate(0deg); }
+  5%            { transform: rotate(-150deg); }
+  9%            { transform: rotate(-130deg); }
+  13%           { transform: rotate(-155deg); }
+  17%           { transform: rotate(-135deg); }
+  21%           { transform: rotate(0deg); }
+}
+
+/* Wrapper sized to contain the cartwheel rotation sweep */
+.meema-cartwheel-wrap {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: idleCartwheel 62s linear infinite;
+  transform-origin: center center;
+}
+
+/* Body animations — no cartwheel here */
+.idle-body {
+  animation:
+    idleBob 3s ease-in-out infinite,
+    idleBounce 11s ease-in-out infinite,
+    idleWobble 17s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+@keyframes idleBounce {
+  0%, 8%, 100%  { transform: translateY(0) scaleX(1) scaleY(1); }
+  2%            { transform: translateY(-10px) scaleX(0.92) scaleY(1.08); }
+  4%            { transform: translateY(0) scaleX(1.1) scaleY(0.92); }
+  6%            { transform: translateY(-5px) scaleX(0.96) scaleY(1.04); }
+}
+
+@keyframes idleWobble {
+  0%, 6%, 100%  { transform: rotate(0deg); }
+  1%            { transform: rotate(-8deg); }
+  2%            { transform: rotate(7deg); }
+  3%            { transform: rotate(-5deg); }
+  4%            { transform: rotate(4deg); }
+  5%            { transform: rotate(0deg); }
+}
+
+@keyframes idleCartwheel {
+  0%   { transform: rotate(0deg) translateY(0); }
+  43%  { transform: rotate(0deg) translateY(0); }
+  45%  { transform: rotate(180deg) translateY(-4px); }
+  47%  { transform: rotate(360deg) translateY(0); }
+  48%  { transform: rotate(0deg) translateY(0); }
+  88%  { transform: rotate(0deg) translateY(0); }
+  91%  { transform: rotate(0deg) translateY(-20px); }
+  94%  { transform: rotate(0deg) translateY(0); }
+  96%  { transform: rotate(0deg) translateY(-10px); }
+  98%  { transform: rotate(0deg) translateY(0); }
+  100% { transform: rotate(0deg) translateY(0); }
+}
+
+/* Pills */
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.pill {
+  background: #ffffff;
+  border: 1px solid #C4A8A4;
+  border-radius: 20px;
+  color: #2E6B5A;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  padding: 6px 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s, border-color 0.1s;
+  line-height: 1.4;
+}
+
+.pill:hover {
+  background: #F5E8E6;
+  border-color: #7A4A52;
+  color: #7A4A52;
+}
+
+.pill:focus-visible {
+  outline: 3px solid #ffcc00;
+  outline-offset: 2px;
+}
+
+.pill:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Thinking bounce */
+
+.bounce-wrap {
+  align-self: flex-start;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.bounce-robot {
+  display: inline-flex;
+  transform-origin: bottom center;
+  animation: bounce 0.75s cubic-bezier(0.33, 0, 0.66, 0) infinite;
+}
+
+.bounce-label {
+  font-size: 12px;
+  color: #2E6B5A;
+  font-style: italic;
+  padding-bottom: 4px;
+  animation: msgFadeIn 0.35s ease;
+}
+
+@keyframes msgFadeIn {
+  from { opacity: 0; transform: translateY(3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0) scaleX(1.15) scaleY(0.85);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  50% {
+    transform: translateY(-14px) scaleX(0.92) scaleY(1.08);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+}
+
+/* Input area */
+
+.input-area {
+  border-top: 1px solid #D4C0BC;
+  background: #F2EDEB;
+  padding: 10px 40px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.surprise-btn {
+  background: #F5E8E6;
+  border: 1px solid #C4897A;
+  color: #7A4A52;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 7px 16px;
+  border-radius: 20px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  align-self: center;
+  transition: background 0.1s, border-color 0.1s, color 0.1s;
+}
+
+.surprise-btn:hover {
+  background: #EDD4D0;
+  border-color: #7A4A52;
+}
+
+.surprise-btn:focus-visible {
+  outline: 2px solid #ffcc00;
+  outline-offset: 2px;
+}
+
+.surprise-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.input-area textarea {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #C4A8A4;
+  border-radius: 3px;
+  color: #2A1F24;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  padding: 8px 10px;
+  resize: none;
+  min-height: 38px;
+  max-height: 120px;
+  outline: none;
+  line-height: 1.4;
+}
+
+.input-area textarea:focus {
+  border-color: #2E6B5A;
+  box-shadow: 0 0 0 2px rgba(46, 107, 90, 0.2);
+}
+
+.input-area textarea::placeholder {
+  color: #9B8085;
+}
+
+.send-btn {
+  background: #2E6B5A;
+  border: 1px solid #245749;
+  color: #F0EDE8;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: background 0.1s;
+  white-space: nowrap;
+}
+
+.send-btn:hover {
+  background: #245749;
+}
+
+.send-btn:focus-visible {
+  outline: 3px solid #ffcc00;
+  outline-offset: 2px;
+}
+
+.send-btn:disabled {
+  background: #9BB8B2;
+  border-color: #9BB8B2;
+  cursor: not-allowed;
+}
+
