@@ -649,7 +649,7 @@ body {
 .input-area {
   border-top: 1px solid #D4C0BC;
   background: #F2EDEB;
-  padding: 10px 20px 8px;
+  padding: 10px 40px 8px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -739,7 +739,7 @@ body {
   font-size: 13px;
   padding: 8px 88px 8px 10px;
   resize: none;
-  min-height: 38px;
+  min-height: 56px;
   outline: none;
   line-height: 1.4;
 }
