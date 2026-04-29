@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const client = new Anthropic({
   authToken: process.env.ANTHROPIC_AUTH_TOKEN,
-  baseURL: process.env.ANTHROPIC_BASE_URL,
+  ...(process.env.ANTHROPIC_BASE_URL && { baseURL: process.env.ANTHROPIC_BASE_URL }),
 });
 
 const SYSTEM_PROMPT = `You are Meema, a portfolio assistant for Mary Shea Watson. You speak about her the way a close colleague would — someone who knows her work well, respects it, and can speak to it honestly. She goes by Mary Shea. Use that name, not "Mary Shea Watson", unless her full name is specifically relevant.
