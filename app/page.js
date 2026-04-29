@@ -103,6 +103,24 @@ function MenuIcon() {
   );
 }
 
+function SendIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+      <path d="M6.5 11V2M2.5 6L6.5 2L10.5 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
+function SparkleIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M6 1C6 1 6.7 4.3 11 6C6.7 7.7 6 11 6 11C6 11 5.3 7.7 1 6C5.3 4.3 6 1 6 1Z" fill="currentColor"/>
+      <circle cx="2.5" cy="2.5" r="0.8" fill="currentColor" opacity="0.5"/>
+      <circle cx="9.5" cy="9.5" r="0.8" fill="currentColor" opacity="0.5"/>
+    </svg>
+  );
+}
+
 
 function renderInline(text) {
   const parts = text.split(/\*\*(.*?)\*\*/g);
@@ -173,10 +191,14 @@ export default function Home() {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [placeholder, setPlaceholder] = useState("What would you like to know about Mary Shea?");
 
   useEffect(() => {
     if (localStorage.getItem("meema_unlocked") === "1") setUnlocked(true);
-    if (window.innerWidth < 640) setSidebarOpen(false);
+    if (window.innerWidth < 768) {
+      setSidebarOpen(false);
+      setPlaceholder("Ask about Mary Shea's work");
+    }
   }, []);
 
   function submitPassword(e) {
@@ -562,33 +584,39 @@ export default function Home() {
 
         <div className="input-area">
           <div className="input-row">
-            <textarea
-              ref={textareaRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={onKeyDown}
-              placeholder="What would you like to know about Mary Shea?"
-              rows={1}
-              disabled={thinking}
-              aria-label="Message input"
-            />
-            <button
-              className="send-btn"
-              onClick={send}
-              disabled={thinking || !input.trim()}
-              aria-label="Send message"
-            >
-              SEND
-            </button>
+            <div className="input-field-wrap">
+              <textarea
+                ref={textareaRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={onKeyDown}
+                placeholder={placeholder}
+                rows={1}
+                disabled={thinking}
+                aria-label="Message input"
+              />
+              <div className="input-icon-group">
+                <button
+                  className="input-send-icon"
+                  onClick={send}
+                  disabled={thinking || !input.trim()}
+                  aria-label="Send message"
+                  title="Send"
+                >
+                  <SendIcon />
+                </button>
+                <button
+                  className="input-surprise-icon"
+                  onClick={handleSurprise}
+                  disabled={thinking}
+                  aria-label="Ask a random question about Mary Shea"
+                  title="Surprise me"
+                >
+                  <SparkleIcon />
+                </button>
+              </div>
+            </div>
           </div>
-          <button
-            className="surprise-btn"
-            onClick={handleSurprise}
-            disabled={thinking}
-            aria-label="Ask a random question about Mary Shea"
-          >
-            ✦ Surprise me
-          </button>
         </div>
       </main>
     </div>

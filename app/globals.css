@@ -62,17 +62,11 @@ body {
 }
 
 /* Desktop: collapses to icon rail */
-.sidebar-collapsed {
-  width: 52px;
-  padding: 12px 0;
-  overflow: hidden;
-}
-
-/* Desktop: hide everything except the toggle button */
-@media (min-width: 641px) {
+@media (min-width: 769px) {
   .sidebar-collapsed {
     width: 44px;
     padding: 0;
+    overflow: hidden;
   }
 
   .sidebar-collapsed > *:not(.sidebar-toggle-close) {
@@ -122,7 +116,7 @@ body {
 }
 
 /* Mobile: full overlay drawer */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .sidebar {
     position: fixed;
     top: 0;
@@ -178,6 +172,39 @@ body {
   /* Push messages down on mobile to clear hamburger button */
   .main.sidebar-is-closed .messages {
     padding-top: 52px;
+  }
+
+  /* Responsive layout */
+  .messages {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .message {
+    max-width: 92%;
+  }
+
+  .input-area {
+    padding: 8px 12px 8px;
+  }
+
+  .pills {
+    gap: 6px;
+  }
+
+  .pill {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .bubble {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .input-area textarea {
+    min-height: 88px;
+    font-size: 13px;
   }
 }
 
@@ -634,33 +661,70 @@ body {
   align-items: flex-end;
 }
 
-.surprise-btn {
-  background: #F5E8E6;
-  border: 1px solid #C4897A;
-  color: #7A4A52;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  font-weight: 500;
+.input-field-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+}
+
+.input-icon-group {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.input-send-icon,
+.input-surprise-icon {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
   cursor: pointer;
-  padding: 7px 16px;
-  border-radius: 20px;
-  text-align: center;
-  letter-spacing: 0.3px;
-  align-self: center;
-  transition: background 0.1s, border-color 0.1s, color 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.1s;
 }
 
-.surprise-btn:hover {
-  background: #EDD4D0;
-  border-color: #7A4A52;
+.input-send-icon {
+  background: #2E6B5A;
+  color: #F0EDE8;
 }
 
-.surprise-btn:focus-visible {
+.input-send-icon:hover {
+  background: #245749;
+}
+
+.input-send-icon:focus-visible {
   outline: 2px solid #ffcc00;
   outline-offset: 2px;
 }
 
-.surprise-btn:disabled {
+.input-send-icon:disabled {
+  background: #9BB8B2;
+  cursor: not-allowed;
+}
+
+.input-surprise-icon {
+  background: #ECD8D4;
+  color: #7A4A52;
+}
+
+.input-surprise-icon:hover {
+  background: #D4B4AE;
+}
+
+.input-surprise-icon:focus-visible {
+  outline: 2px solid #ffcc00;
+  outline-offset: 2px;
+}
+
+.input-surprise-icon:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
@@ -673,10 +737,9 @@ body {
   color: #2A1F24;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 13px;
-  padding: 8px 10px;
+  padding: 8px 72px 8px 10px;
   resize: none;
   min-height: 38px;
-  max-height: 120px;
   outline: none;
   line-height: 1.4;
 }
