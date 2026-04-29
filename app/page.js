@@ -111,12 +111,22 @@ function SendIcon() {
   );
 }
 
-function SparkleIcon() {
+function DiceIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-      <path d="M6 1C6 1 6.7 4.3 11 6C6.7 7.7 6 11 6 11C6 11 5.3 7.7 1 6C5.3 4.3 6 1 6 1Z" fill="currentColor"/>
-      <circle cx="2.5" cy="2.5" r="0.8" fill="currentColor" opacity="0.5"/>
-      <circle cx="9.5" cy="9.5" r="0.8" fill="currentColor" opacity="0.5"/>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M8.26 1.98 Q10 1 11.74 1.98 L16.26 4.52 Q18 5.5 18 7.5 L18 12.5 Q18 14.5 16.26 15.48 L11.74 18.02 Q10 19 8.26 18.02 L3.74 15.48 Q2 14.5 2 12.5 L2 7.5 Q2 5.5 3.74 4.52 L8.26 1.98 Z"
+        fill="white" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"
+      />
+      <line x1="10" y1="10" x2="18" y2="5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="10" y1="10" x2="2" y2="5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="10" y1="10" x2="10" y2="18.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <circle cx="10" cy="5.5" r="1.3" fill="currentColor"/>
+      <circle cx="15.5" cy="9" r="1.3" fill="currentColor"/>
+      <circle cx="12.5" cy="15" r="1.3" fill="currentColor"/>
+      <circle cx="4.5" cy="9" r="1.3" fill="currentColor"/>
+      <circle cx="6.5" cy="12" r="1.3" fill="currentColor"/>
+      <circle cx="8" cy="15.5" r="1.3" fill="currentColor"/>
     </svg>
   );
 }
@@ -255,7 +265,8 @@ export default function Home() {
 
   function handleSurprise() {
     const q = SURPRISE_QUESTIONS[Math.floor(Math.random() * SURPRISE_QUESTIONS.length)];
-    sendText(q);
+    setInput(q);
+    textareaRef.current?.focus();
   }
 
   function handleNavClick(e, item) {
@@ -449,13 +460,6 @@ export default function Home() {
         <h3 className="sidebar-intro">Welcome to the &lsquo;Meet Mary Shea&rsquo; experience, or &lsquo;Meema&rsquo; for short. It&rsquo;s a portfolio that talks back.</h3>
         <p className="sidebar-intro">Her work, in (mostly) her words. Just ask.</p>
 
-        <button
-          className="sidebar-chat-btn"
-          onClick={() => textareaRef.current?.focus()}
-        >
-          Chat with Meema
-        </button>
-
         <nav className="sidebar-nav" aria-label="Portfolio links">
           <span className="sidebar-nav-label">Case studies</span>
           {CASE_STUDY_ITEMS.map((item) => (
@@ -613,7 +617,7 @@ export default function Home() {
                   aria-label="Ask a random question about Mary Shea"
                   title="Surprise me"
                 >
-                  <SparkleIcon />
+                  <DiceIcon />
                 </button>
               </div>
             </div>
