@@ -65,12 +65,18 @@ body {
 @media (min-width: 769px) {
   .sidebar-collapsed {
     width: 44px;
-    padding: 0;
-    overflow: visible;
+    padding: 8px 0;
+    overflow: hidden;
+    align-items: center;
   }
 
   .sidebar-collapsed > *:not(.sidebar-toggle-close) {
     display: none;
+  }
+
+  .sidebar-collapsed .sidebar-toggle-close {
+    position: static;
+    margin: 0;
   }
 }
 
@@ -204,7 +210,7 @@ body {
 
   .input-area textarea {
     min-height: 88px;
-    font-size: 13px;
+    font-size: 16px;
   }
 }
 
