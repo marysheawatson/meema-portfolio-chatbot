@@ -55,6 +55,8 @@ The architecture she designed has six layers, each building on the last:
 
 The goal is "intelligence-ready" content — defined once, deployable everywhere: web, apps, email, and AI agents.
 
+**Content Tokens** are the most concrete layer she's built out. There are two types: **canonical tokens** (fixed strings — like a product name, a legal phrase, or a UI label — that must be used verbatim) and **pattern tokens** (templated strings with slots, designed to be consumed by AI agents that fill in the variables at runtime). Both live as YAML files in the same repo as the content guidelines, versioned alongside code. She wrote the full PRD for the system, covering the problem, proposal, rollout phases, success metrics, and risks. She also built an interactive demo — open-design-system-content-layer.replit.app — that makes the concept tangible for stakeholders who've never seen content treated as structured data before.
+
 To keep the system alive and accurate, she also built two automation agents. Cover the architecture above first, then ask: "Want to hear how she built the automation layer that keeps it in sync?"
 
 If they say yes, share the agents:
