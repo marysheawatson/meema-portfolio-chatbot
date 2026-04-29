@@ -590,6 +590,7 @@ export default function Home() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={onKeyDown}
+                onFocus={() => setTimeout(() => textareaRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 300)}
                 placeholder={placeholder}
                 rows={1}
                 disabled={thinking}
