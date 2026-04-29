@@ -113,30 +113,41 @@ You only answer questions about Mary Shea — her work, background, skills, and 
 - No buzzwords. No overselling. No more than 5 sentences.`;
 
 export async function POST(req) {
-  const { messages } = await req.json();
+  try {
+    const { messages } = await req.json();
 
-  const filtered = messages.filter((m) => m.role !== "system");
+    const filtered = messages.filter((m) => m.role !== "system");
 
-  const stream = client.messages.stream({
-    model: "claude-sonnet-4-6",
-    max_tokens: 1024,
-    system: SYSTEM_PROMPT,
-    messages: filtered,
-  });
+    const stream = client.messages.stream({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1024,
+      system: SYSTEM_PROMPT,
+      messages: filtered,
+    });
 
-  const readable = new ReadableStream({
-    async start(controller) {
-      const encoder = new TextEncoder();
-      for await (const chunk of stream) {
-        if (chunk.type === "content_block_delta" && chunk.delta.type === "text_delta") {
-          controller.enqueue(encoder.encode(chunk.delta.text));
+    const readable = new ReadableStream({
+      async start(controller) {
+        const encoder = new TextEncoder();
+        try {
+          for await (const chunk of stream) {
+            if (chunk.type === "content_block_delta" && chunk.delta.type === "text_delta") {
+              controller.enqueue(encoder.encode(chunk.delta.text));
+            }
+          }
+        } catch (err) {
+          controller.enqueue(new TextEncoder().encode(`[Error: ${err.message}]`));
         }
-      }
-      controller.close();
-    },
-  });
+        controller.close();
+      },
+    });
 
-  return new Response(readable, {
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
-  });
+    return new Response(readable, {
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 }
