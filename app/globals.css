@@ -597,3 +597,55 @@ body {
   cursor: not-allowed;
 }
 
+/* Password modal */
+
+.password-overlay {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(180deg, #2A1F24 0%, #3D2B35 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 280px;
+}
+
+.password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.password-input {
+  background: #ffffff;
+  border: 1px solid #C4A8A4;
+  border-radius: 3px;
+  color: #2A1F24;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  padding: 8px 10px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.password-input:focus {
+  border-color: #2E6B5A;
+  box-shadow: 0 0 0 2px rgba(46, 107, 90, 0.2);
+}
+
+.password-error {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #C4897A;
+  margin: 0;
+  text-align: center;
+}
+

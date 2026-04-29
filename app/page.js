@@ -137,7 +137,28 @@ const MORE_ITEMS = [
   { label: "Contact", href: "mailto:mary.s.valliant@gmail.com" },
 ];
 
+const PASSWORD = "hiremegoogle!";
+
 export default function Home() {
+  const [unlocked, setUnlocked] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("meema_unlocked") === "1") setUnlocked(true);
+  }, []);
+
+  function submitPassword(e) {
+    e.preventDefault();
+    if (passwordInput === PASSWORD) {
+      localStorage.setItem("meema_unlocked", "1");
+      setUnlocked(true);
+    } else {
+      setPasswordError(true);
+      setPasswordInput("");
+    }
+  }
+
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -295,6 +316,30 @@ export default function Home() {
       e.preventDefault();
       send();
     }
+  }
+
+  if (!unlocked) {
+    return (
+      <div className="password-overlay">
+        <div className="password-modal">
+          <MeemaIdle />
+          <h1 className="sidebar-name" style={{ alignSelf: "center", marginTop: 8 }}>Meema</h1>
+          <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: "#B08898", textAlign: "center", margin: 0 }}>Enter the password to continue</p>
+          <form onSubmit={submitPassword} className="password-form">
+            <input
+              type="password"
+              value={passwordInput}
+              onChange={(e) => { setPasswordInput(e.target.value); setPasswordError(false); }}
+              placeholder="Password"
+              autoFocus
+              className="password-input"
+            />
+            {passwordError && <p className="password-error">Incorrect password</p>}
+            <button type="submit" className="send-btn" style={{ width: "100%" }}>Enter</button>
+          </form>
+        </div>
+      </div>
+    );
   }
 
   return (
