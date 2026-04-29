@@ -1,9 +1,6 @@
-import Anthropic from "@anthropic-ai/sdk";
-
-const client = new Anthropic({
-  authToken: process.env.ANTHROPIC_AUTH_TOKEN,
-  ...(process.env.ANTHROPIC_BASE_URL && { baseURL: process.env.ANTHROPIC_BASE_URL }),
-});
+const ANTHROPIC_API_URL = process.env.ANTHROPIC_BASE_URL
+  ? `${process.env.ANTHROPIC_BASE_URL}/messages`
+  : "https://api.anthropic.com/v1/messages";
 
 const SYSTEM_PROMPT = `You are Meema, a portfolio assistant for Mary Shea Watson. You speak about her the way a close colleague would — someone who knows her work well, respects it, and can speak to it honestly. She goes by Mary Shea. Use that name, not "Mary Shea Watson", unless her full name is specifically relevant.
 
@@ -115,27 +112,55 @@ You only answer questions about Mary Shea — her work, background, skills, and 
 export async function POST(req) {
   try {
     const { messages } = await req.json();
-
     const filtered = messages.filter((m) => m.role !== "system");
 
-    const stream = client.messages.stream({
-      model: "claude-sonnet-4-6",
-      max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages: filtered,
+    const upstream = await fetch(ANTHROPIC_API_URL, {
+      method: "POST",
+      headers: {
+        "x-api-key": process.env.ANTHROPIC_AUTH_TOKEN,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1024,
+        system: SYSTEM_PROMPT,
+        messages: filtered,
+        stream: true,
+      }),
     });
+
+    if (!upstream.ok) {
+      const err = await upstream.text();
+      return new Response(`[Error: ${upstream.status} ${err}]`, {
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      });
+    }
 
     const readable = new ReadableStream({
       async start(controller) {
         const encoder = new TextEncoder();
+        const reader = upstream.body.getReader();
+        const decoder = new TextDecoder();
         try {
-          for await (const chunk of stream) {
-            if (chunk.type === "content_block_delta" && chunk.delta.type === "text_delta") {
-              controller.enqueue(encoder.encode(chunk.delta.text));
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            const text = decoder.decode(value);
+            for (const line of text.split("\n")) {
+              if (!line.startsWith("data: ")) continue;
+              const data = line.slice(6).trim();
+              if (data === "[DONE]") continue;
+              try {
+                const json = JSON.parse(data);
+                if (json.type === "content_block_delta" && json.delta?.type === "text_delta") {
+                  controller.enqueue(encoder.encode(json.delta.text));
+                }
+              } catch {}
             }
           }
         } catch (err) {
-          controller.enqueue(new TextEncoder().encode(`[Error: ${err.message}]`));
+          controller.enqueue(encoder.encode(`[Error: ${err.message}]`));
         }
         controller.close();
       },
@@ -145,9 +170,8 @@ export async function POST(req) {
       headers: { "Content-Type": "text/plain; charset=utf-8" },
     });
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
+    return new Response(`[Error: ${err.message}]`, {
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
     });
   }
 }
