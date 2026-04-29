@@ -173,7 +173,7 @@ const SURPRISE_QUESTIONS = [
 const CASE_STUDY_ITEMS = [
   {
     label: "Conversation design",
-    href: "https://www.figma.com/slides/XdM231e0EKd03a82jiyJbH/PayPal-Agentic-AI-Interview-Case-Studies?node-id=1-111&t=Z5iOW2nNlFGRT97Q-0",
+    href: "https://www.figma.com/deck/XdM231e0EKd03a82jiyJbH/Agentic-UX-and-Conversation-Design-Case-Studies?node-id=1-111",
     newTab: true,
   },
   {
@@ -594,7 +594,6 @@ export default function Home() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={onKeyDown}
-                onFocus={() => setTimeout(() => textareaRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 300)}
                 placeholder={placeholder}
                 rows={1}
                 disabled={thinking}
