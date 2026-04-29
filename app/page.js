@@ -200,7 +200,7 @@ const MORE_ITEMS = [
   { label: "Contact", href: "mailto:mary.s.valliant@gmail.com" },
 ];
 
-const PASSWORD = "hiremegoogle!";
+const PASSWORD = "google2026!";
 
 export default function Home() {
   const [unlocked, setUnlocked] = useState(false);
