@@ -66,7 +66,7 @@ body {
   .sidebar-collapsed {
     width: 44px;
     padding: 0;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .sidebar-collapsed > *:not(.sidebar-toggle-close) {
@@ -679,8 +679,8 @@ body {
 
 .input-send-icon,
 .input-surprise-icon {
-  width: 26px;
-  height: 26px;
+  width: 34px;
+  height: 34px;
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -737,7 +737,7 @@ body {
   color: #2A1F24;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 13px;
-  padding: 8px 72px 8px 10px;
+  padding: 8px 88px 8px 10px;
   resize: none;
   min-height: 38px;
   outline: none;

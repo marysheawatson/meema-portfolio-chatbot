@@ -105,7 +105,7 @@ function MenuIcon() {
 
 function SendIcon() {
   return (
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+    <svg width="15" height="15" viewBox="0 0 13 13" fill="none" aria-hidden="true">
       <path d="M6.5 11V2M2.5 6L6.5 2L10.5 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   );
@@ -113,7 +113,7 @@ function SendIcon() {
 
 function SparkleIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+    <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
       <path d="M6 1C6 1 6.7 4.3 11 6C6.7 7.7 6 11 6 11C6 11 5.3 7.7 1 6C5.3 4.3 6 1 6 1Z" fill="currentColor"/>
       <circle cx="2.5" cy="2.5" r="0.8" fill="currentColor" opacity="0.5"/>
       <circle cx="9.5" cy="9.5" r="0.8" fill="currentColor" opacity="0.5"/>
