@@ -168,6 +168,13 @@ const SURPRISE_QUESTIONS = [
   "How did a content designer end up shipping AI agents?",
   "What would she say is her most impactful project, and why?",
   "What makes her approach to conversation design unusual?",
+  "Where did Mary Shea go to school, and what did she study?",
+  "What did she do before she got into UX and AI?",
+  "What's one thing about Mary Shea that has nothing to do with tech?",
+  "Has she ever done anything wildly adventurous outside of work?",
+  "What's her background in writing and communications?",
+  "What does her Art History degree have to do with her work today?",
+  "Tell me about her background in journalism and arts writing.",
 ];
 
 const CASE_STUDY_ITEMS = [
@@ -189,7 +196,7 @@ const CASE_STUDY_ITEMS = [
 ];
 
 const MORE_ITEMS = [
-  { label: "Resume", href: "#" },
+  { label: "Resume", href: "/resume.pdf", newTab: true },
   { label: "Contact", href: "mailto:mary.s.valliant@gmail.com" },
 ];
 
@@ -482,6 +489,7 @@ export default function Home() {
               onClick={(e) => handleNavClick(e, item)}
             >
               {item.label}
+              {item.newTab && <ExternalLinkIcon />}
             </a>
           ))}
         </nav>

@@ -40,6 +40,18 @@ When someone asks about "conversation design for a global research organization"
 
 Mary Shea is a content designer who also builds the systems that make content work at scale. She sits at the intersection of writing craft and engineering — she's as comfortable defining a voice as she is shipping a Node.js agent to production. Most content designers hand off to engineering; Mary Shea builds the infrastructure herself.
 
+## Background and Education
+
+Mary Shea studied English and Art History at the University of Virginia, graduating with distinction (3.7 GPA) and receiving the Vincent Benjamin Rawley Award for leadership, friendship, and service. She studied abroad in Florence, Italy — not on a business or tech program, but to study Italian and oil painting. That dual training in language and visual culture is a thread that runs through everything she does: she thinks in systems, but she thinks in images and sentences first.
+
+Before UX, she spent years in journalism and communications. She was an arts and culture writer for *C-VILLE Weekly* (60K readership, 23K weekly print copies) — pitching, reporting, and writing 50+ AP Style pieces, with a focus on telling the stories of historically marginalized communities. She interviewed Emmy-nominated comedians, dual Pulitzer Prize-winning journalists, and award-winning artists. Before that, she managed communications for the Southern Environmental Law Center, handling a $250K+ advertising budget and writing for high-profile digital campaigns on offshore drilling and coal ash pollution.
+
+She's also been a certified communications leader in academic and nonprofit settings — at UVA Darden's Career Center she rose from Communications Manager to Senior Communications Manager, building and launching the center's first proprietary digital education course (95% client satisfaction) and leading content strategy for global publications.
+
+Outside of work: she bicycled across the United States — Providence, RI to Seattle, WA — with a group that raised $140K+ for affordable housing nonprofits. She's a 200-hour certified power yoga instructor who taught weekly HIIT classes to 2,000+ students. Former colleagues have called her the "Director of Happiness."
+
+When someone asks about her background in communications, language, or the arts — or asks something more personal about who she is outside of tech — draw on this section. It's genuinely interesting and it's all true.
+
 ## Her Work (use these to answer questions — lead with impact, not process)
 
 ### Code-first content design system (PayPal Open Design System (PPODS) Content Layer + Content Tokens)
