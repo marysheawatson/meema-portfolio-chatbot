@@ -77,6 +77,33 @@ function ExternalLinkIcon() {
   );
 }
 
+function ChevronLeftIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ChevronRightIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M4.5 2L8.5 6L4.5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function MenuIcon() {
+  return (
+    <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+      <line x1="1" y1="1" x2="13" y2="1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="1" y1="6" x2="13" y2="6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="1" y1="11" x2="13" y2="11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+
 function renderInline(text) {
   const parts = text.split(/\*\*(.*?)\*\*/g);
   return parts.map((part, i) =>
@@ -118,7 +145,8 @@ const SURPRISE_QUESTIONS = [
 const CASE_STUDY_ITEMS = [
   {
     label: "Conversation design",
-    href: "#",
+    href: "https://www.figma.com/slides/XdM231e0EKd03a82jiyJbH/PayPal-Agentic-AI-Interview-Case-Studies?node-id=1-111&t=Z5iOW2nNlFGRT97Q-0",
+    newTab: true,
   },
   {
     label: "Systems design",
@@ -143,9 +171,12 @@ export default function Home() {
   const [unlocked, setUnlocked] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
   const [passwordError, setPasswordError] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem("meema_unlocked") === "1") setUnlocked(true);
+    if (window.innerWidth < 640) setSidebarOpen(false);
   }, []);
 
   function submitPassword(e) {
@@ -183,6 +214,7 @@ export default function Home() {
   const textareaRef = useRef(null);
   const pendingBuffer = useRef("");
   const streamDone = useRef(false);
+  const pendingFollowups = useRef([]);
   const typingTimeout = useRef(null);
   const drainRate = useRef(20);
 
@@ -229,6 +261,15 @@ export default function Home() {
       typingTimeout.current = setTimeout(tick, drainRate.current);
     } else {
       typingTimeout.current = null;
+      if (pendingFollowups.current.length > 0) {
+        const followups = pendingFollowups.current;
+        pendingFollowups.current = [];
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = { ...updated[updated.length - 1], followups };
+          return updated;
+        });
+      }
     }
   }
 
@@ -288,6 +329,18 @@ export default function Home() {
         }
       }
 
+      // Strip [FOLLOWUPS] block before draining
+      const followupMarker = "\n[FOLLOWUPS]\n";
+      const followupIdx = pendingBuffer.current.indexOf(followupMarker);
+      if (followupIdx !== -1) {
+        const followupText = pendingBuffer.current.slice(followupIdx + followupMarker.length);
+        pendingBuffer.current = pendingBuffer.current.slice(0, followupIdx);
+        pendingFollowups.current = followupText
+          .split("\n")
+          .map((l) => l.replace(/^[-•]\s*/, "").trim())
+          .filter(Boolean);
+      }
+
       streamDone.current = true;
       kickoffDrain();
     } catch {
@@ -326,14 +379,28 @@ export default function Home() {
           <h1 className="sidebar-name" style={{ alignSelf: "center", marginTop: 8 }}>Meema</h1>
           <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: "#B08898", textAlign: "center", margin: 0 }}>Enter the password to continue</p>
           <form onSubmit={submitPassword} className="password-form">
-            <input
-              type="password"
-              value={passwordInput}
-              onChange={(e) => { setPasswordInput(e.target.value); setPasswordError(false); }}
-              placeholder="Password"
-              autoFocus
-              className="password-input"
-            />
+            <div className="password-input-wrap">
+              <input
+                type={passwordVisible ? "text" : "password"}
+                value={passwordInput}
+                onChange={(e) => { setPasswordInput(e.target.value); setPasswordError(false); }}
+                placeholder="Password"
+                autoFocus
+                className="password-input"
+              />
+              <button
+                type="button"
+                className="password-eye"
+                onClick={() => setPasswordVisible((v) => !v)}
+                aria-label={passwordVisible ? "Hide password" : "Show password"}
+              >
+                {passwordVisible ? (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                ) : (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                )}
+              </button>
+            </div>
             {passwordError && <p className="password-error">Incorrect password</p>}
             <button type="submit" className="send-btn" style={{ width: "100%" }}>Enter</button>
           </form>
@@ -344,7 +411,14 @@ export default function Home() {
 
   return (
     <div className="layout">
-      <aside className="sidebar">
+      <aside className={`sidebar${sidebarOpen ? "" : " sidebar-collapsed"}`}>
+        <button
+          className="sidebar-toggle-close"
+          onClick={() => setSidebarOpen((o) => !o)}
+          aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+        >
+          {sidebarOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </button>
         <div className="meema-cartwheel-wrap">
           <MeemaIdle />
         </div>
@@ -395,7 +469,23 @@ export default function Home() {
         <div className="sidebar-footer">Powered by Claude Code and coffee</div>
       </aside>
 
-      <main className="main" aria-label="Meema — Meet Mary Shea">
+      {sidebarOpen && (
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      <main className={`main${sidebarOpen ? "" : " sidebar-is-closed"}`} aria-label="Meema — Meet Mary Shea">
+        <button
+          className="sidebar-toggle-open"
+          onClick={() => setSidebarOpen(true)}
+          aria-label="Open sidebar"
+          style={{ display: sidebarOpen ? "none" : undefined }}
+        >
+          <MenuIcon />
+        </button>
         <div
           className="messages"
           role="log"
@@ -435,6 +525,13 @@ export default function Home() {
                   return <p key={j} style={{ marginBottom: mb }}>{renderInline(block)}</p>;
                 })}
               </div>
+              {msg.followups?.length > 0 && (
+                <div className="followup-pills">
+                  {msg.followups.map((q, k) => (
+                    <button key={k} className="pill" onClick={() => sendText(q)} disabled={thinking}>{q}</button>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
           {pillsVisible && (

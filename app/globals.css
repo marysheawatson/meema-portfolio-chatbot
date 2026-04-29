@@ -56,6 +56,129 @@ body {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #5C3A45 transparent;
+  position: relative;
+  transition: width 0.25s ease, padding 0.25s ease, border-color 0.25s ease;
+  min-width: 0;
+}
+
+/* Desktop: collapses to icon rail */
+.sidebar-collapsed {
+  width: 52px;
+  padding: 12px 0;
+  overflow: hidden;
+}
+
+/* Desktop: hide everything except the toggle button */
+@media (min-width: 641px) {
+  .sidebar-collapsed {
+    width: 44px;
+    padding: 0;
+  }
+
+  .sidebar-collapsed > *:not(.sidebar-toggle-close) {
+    display: none;
+  }
+}
+
+/* Toggle button (inside sidebar, always visible on desktop) */
+.sidebar-toggle-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: #B08898;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.1s, color 0.1s;
+  z-index: 1;
+}
+
+.sidebar-toggle-close:hover {
+  background: rgba(255, 255, 255, 0.13);
+  color: #F0EDE8;
+}
+
+.sidebar-toggle-close:focus-visible {
+  outline: 2px solid #ffcc00;
+  outline-offset: 2px;
+}
+
+
+/* Mobile hamburger: hidden on desktop */
+.sidebar-toggle-open {
+  display: none;
+}
+
+/* Backdrop: hidden on desktop */
+.sidebar-backdrop {
+  display: none;
+}
+
+/* Mobile: full overlay drawer */
+@media (max-width: 640px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 100;
+    transition: transform 0.25s ease;
+  }
+
+  /* On mobile, collapsed = slides off screen (no icon rail) */
+  .sidebar-collapsed {
+    width: 260px;
+    padding: 36px 20px 24px;
+    overflow: hidden;
+    transform: translateX(-260px);
+  }
+
+  .sidebar-toggle-open {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+    background: #3D2B35;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    color: #F0EDE8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    transition: background 0.1s;
+  }
+
+  .sidebar-toggle-open:hover {
+    background: #5C3540;
+  }
+
+  .sidebar-toggle-open:focus-visible {
+    outline: 2px solid #ffcc00;
+    outline-offset: 2px;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 99;
+  }
+
+  /* Push messages down on mobile to clear hamburger button */
+  .main.sidebar-is-closed .messages {
+    padding-top: 52px;
+  }
 }
 
 .sidebar-name {
@@ -597,6 +720,15 @@ body {
   cursor: not-allowed;
 }
 
+/* Follow-up pills */
+
+.followup-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
 /* Password modal */
 
 .password-overlay {
@@ -639,6 +771,32 @@ body {
 .password-input:focus {
   border-color: #2E6B5A;
   box-shadow: 0 0 0 2px rgba(46, 107, 90, 0.2);
+}
+
+.password-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrap .password-input {
+  padding-right: 36px;
+}
+
+.password-eye {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9B8085;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.password-eye:hover {
+  color: #3D2B35;
 }
 
 .password-error {
